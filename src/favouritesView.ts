@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-// More details about TreeView APis at https://code.visualstudio.com/api/extension-guides/tree-view
+// More details about TreeView APIs at https://code.visualstudio.com/api/extension-guides/tree-view
 export class FavouritesViewProvider implements vscode.TreeDataProvider<FavouriteItem> {
   private _onDidChangeTreeData: vscode.EventEmitter<FavouriteItem | undefined | void> = new vscode.EventEmitter<FavouriteItem | undefined | void>();
   readonly onDidChangeTreeData: vscode.Event<FavouriteItem | undefined | void> = this._onDidChangeTreeData.event;
@@ -15,11 +15,11 @@ export class FavouritesViewProvider implements vscode.TreeDataProvider<Favourite
     return element;
   }
 
-  getChildren(element?: FavouriteItem): Thenable<FavouriteItem[]> {
+  getChildren(element?: FavouriteItem): FavouriteItem[] {
     if (element) {
-      return Promise.resolve([]);
+      return [];
     } else {
-      return Promise.resolve(this.favourites);
+      return this.favourites;
     }
   }
 
@@ -30,15 +30,15 @@ export class FavouritesViewProvider implements vscode.TreeDataProvider<Favourite
 }
 
 export class FavouriteItem extends vscode.TreeItem {
-  constructor(
-    public readonly label: string,
-    public readonly resourceUri: vscode.Uri
-  ) {
-    super(label, vscode.TreeItemCollapsibleState.None);
-    this.resourceUri = resourceUri;
-    this.description = resourceUri.fsPath;
-    this.command = { command: 'favourites.openFavourite', title: 'Open Favourite File', arguments: [this] };
-  }
+    constructor(
+      public readonly label: string,
+      public readonly resourceUri: vscode.Uri
+    ) {
+      super(label, vscode.TreeItemCollapsibleState.None);
+      this.resourceUri = resourceUri;
+      this.description = resourceUri.fsPath;
+      this.command = { command: 'favourites.openFavourite', title: 'Open Favourite File', arguments: [this] };
+    }
 
-  iconPath = vscode.ThemeIcon.File;
+    iconPath = vscode.ThemeIcon.File;
 }
